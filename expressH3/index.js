@@ -4,7 +4,7 @@ const express = require("mysql2");
 const bookRoute = require("./routes/book");
 const authorRoute = require("./routes/author");
 const dbConfig = require("./config/database");
-const pool = mysql.createPool({})
+const pool = mysql.createPool(dbConfig)
 
 pool.on('error', (err) => {
     console.log(err);

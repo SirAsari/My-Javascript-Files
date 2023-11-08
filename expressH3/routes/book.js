@@ -1,19 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const {
+    getBooks
+} = require('../controllers/BookController')
 
-router.get('/', (req, res) => {
-    res.send('Get book code')
-    res.end()
-})
+router.get('/', getBooks)
 
-router.post('/', (req, res) => {
-    res.send('Post book code')
-    res.end()
-})
-
-router.get('/:id', (req, res) => {
-
-})
+router.post('/',)
 
 router.put('/:id', (req, res) => {
     res.send('Put book code')
