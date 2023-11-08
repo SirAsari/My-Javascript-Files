@@ -1,10 +1,22 @@
 const express = require("express");
 // const cors = require('cors');
+const express = require("mysql2");
 const bookRoute = require("./routes/book");
 const authorRoute = require("./routes/author");
+const dbConfig = require("./config/database");
+const pool = mysql.createPool({})
+
+pool.on('error', (err) => {
+    console.log(err);
+})
 
 const app = express();
 const PORT = 3000;
+
+app.use(express.json())
+app.use(express.urlencoded({
+    extended: true
+}))
 
 // Enable CORS for all routes
 // app.use(cors());

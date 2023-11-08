@@ -11,12 +11,16 @@ router.post('/', (req, res) => {
     res.end()
 })
 
-router.put('/', (req, res) => {
+router.get('/:id', (req, res) => {
+
+})
+
+router.put('/:id', (req, res) => {
     res.send('Put book code')
     res.end()
 })
 
-router.delete('/', (req, res) => {
+router.delete('/:id', (req, res) => {
     res.send('Delete book code')
     res.end()
 })
