@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
 })
 
 router.put('/', (req, res) => {
-    res.send('Put Author code')
+    res.send('Put Author Kode')
     res.end()
 })
 
