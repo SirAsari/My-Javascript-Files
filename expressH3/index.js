@@ -18,7 +18,10 @@ const PORT = 3000;
 // membuat parameter
 app.get('/controllerparameter/:username/:jurusan/:rombel', (req, res) => {
     res.json(req.params)
-    
+})
+
+app.get("/contohparams", (req,res) => {
+    res.json(req.query);
 })
 
 app.get("/", (req, res) => {
