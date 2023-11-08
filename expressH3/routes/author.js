@@ -17,7 +17,7 @@ router.put('/', (req, res) => {
 })
 
 router.delete('/', (req, res) => {
-    res.send('Delete Author code')
+    res.send('Delete Author Kode')
     res.end()
 })
 
