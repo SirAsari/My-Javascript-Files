@@ -1,17 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const {
-    getBooks
+    getBooks,
+    getBook,
+    updateBook,
 } = require('../controllers/BookController')
 
 router.get('/', getBooks)
 
+router.get('/:id', getBook)
+
 router.post('/',)
 
-router.put('/:id', (req, res) => {
-    res.send('Put book code')
-    res.end()
-})
+router.put('/:id', updateBook)
 
 router.delete('/:id', (req, res) => {
     res.send('Delete book code')
