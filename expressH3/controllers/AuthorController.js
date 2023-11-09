@@ -47,14 +47,14 @@ const getAuthor = (req, res) => {
 
 const updateAuthor = (req, res) => {
     const id = req.params.id;
-    const { name, year, publisher, city, editor } = req.body;
+    const { name, email, alamat, umur, media_sosial } = req.body;
 
-    const query = `UPDATE Authors SET name = ?, year = ?, publisher = ?, city = ?, editor = ? WHERE id = ?`;
+    const query = `UPDATE Authors SET name = ?, email = ?, alamat = ?, umur = ?, media_sosial = ? WHERE id = ?`;
 
     pool.getConnection((err, connection) => {
         if (err) throw err;
 
-        connection.query(query, [name, year, publisher, city, editor, id], (err, result) => {
+        connection.query(query, [name, email, alamat, umur, media_sosial, id], (err, result) => {
             if (err) throw err;
 
             if (result.affectedRows > 0) {
@@ -91,16 +91,16 @@ const deleteAuthor = (req, res) => {
 };
 
 const createAuthor = (req, res) => {
-    const { name, year, publisher, city, editor } = req.body;
+    const { name, email, alamat, umur, media_sosial } = req.body;
 
     // Validate the request data as needed
 
-    const query = 'INSERT INTO Authors (name, year, publisher, city, editor) VALUES (?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO Authors (name, email, alamat, umur, media_sosial) VALUES (?, ?, ?, ?, ?)';
 
     pool.getConnection((err, connection) => {
         if (err) throw err;
 
-        connection.query(query, [name, year, publisher, city, editor], (err, result) => {
+        connection.query(query, [name, email, alamat, umur, media_sosial], (err, result) => {
             if (err) throw err;
 
             const newAuthorId = result.insertId;
