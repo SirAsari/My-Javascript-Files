@@ -1,25 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const {
+    getAuthors,
+    getAuthor,
+    updateAuthor,
+    deleteAuthor,
+    createAuthor,
+} = require('../controllers/AuthorController')
 
-router.get('/', (req, res) => {
-    res.send('Get Author code')
-    res.end()
-})
+router.get('/', getAuthors)
 
-router.post('/', (req, res) => {
-    res.send('Post Author code')
-    res.end()
-})
+router.get('/:id', getAuthor)
 
-router.put('/', (req, res) => {
-    res.send('Put Author Kode')
-    res.end()
-})
+router.post('/', createAuthor);
 
-router.delete('/', (req, res) => {
-    res.send('Delete Author Kode')
-    res.end()
-})
+router.put('/:id', updateAuthor)
+
+router.delete('/:id', deleteAuthor);
 
 module.exports = router
 
