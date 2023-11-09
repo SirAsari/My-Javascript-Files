@@ -118,8 +118,6 @@ const createAuthor = (req, res) => {
     });
 };
 
-
-
 module.exports = {
     getAuthors,
     getAuthor,

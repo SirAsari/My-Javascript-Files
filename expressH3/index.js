@@ -3,6 +3,7 @@ const express = require("express");
 const mysql = require("mysql2");
 const bookRoute = require("./routes/book");
 const authorRoute = require("./routes/author");
+const authRoute = require("./routes/auth");
 const dbConfig = require("./config/database");
 const pool = mysql.createPool(dbConfig)
 
@@ -41,6 +42,7 @@ app.get("/", (req, res) => {
   res.end();
 });
 
+app.use('/auth', authRoute);
 app.use("/book", bookRoute);
 app.use("/author", authorRoute);
 
