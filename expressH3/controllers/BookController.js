@@ -1,5 +1,5 @@
 const mysql = require('mysql2')
-const dbConfig = require('./config/database.js')
+const dbConfig = require('../config/database')
 const pool = mysql.createPool(dbConfig)
 
 const {
