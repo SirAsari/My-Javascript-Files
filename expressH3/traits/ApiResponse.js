@@ -1,5 +1,3 @@
-
-
 const responseNotFound = (res) => {
     res.status(494).json({
         success: false,
