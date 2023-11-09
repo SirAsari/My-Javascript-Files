@@ -40,21 +40,21 @@ const getBook = (req, res) => {
                 return
             }
         })
-// test
+
         connection.release()
     })
 }
 
 const updateBook = (req, res) => {
     const id = req.params.id;
-    const { title, author, genre, year } = req.body;
+    const { nama, author, year, page_count, publisher } = req.body;
 
-    const query = 'UPDATE books SET title = ?, author = ?, genre = ?, year = ? WHERE id = ?';
+    const query = `UPDATE books SET nama = ?, author = ?, year = ?, page_count = ?, publisher = ? WHERE id = ?`;
 
     pool.getConnection((err, connection) => {
         if (err) throw err;
 
-        connection.query(query, [title, author, genre, year, id], (err, result) => {
+        connection.query(query, [nama, author, year, page_count, publisher, id], (err, result) => {
             if (err) throw err;
 
             if (result.affectedRows > 0) {
@@ -68,8 +68,62 @@ const updateBook = (req, res) => {
     });
 };
 
+const deleteBook = (req, res) => {
+    const id = req.params.id;
+
+    const query = 'DELETE FROM books WHERE id = ?';
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+
+        connection.query(query, [id], (err, result) => {
+            if (err) throw err;
+
+            if (result.affectedRows > 0) {
+                responseSuccess(res, null, 'Book successfully deleted');
+            } else {
+                responseNotFound(res, 'Book not found');
+            }
+
+            connection.release();
+        });
+    });
+};
+
+const createBook = (req, res) => {
+    const { nama, author, year, page_count, publisher } = req.body;
+
+    // Validate the request data as needed
+
+    const query = 'INSERT INTO books (nama, author, year, page_count, publisher) VALUES (?, ?, ?, ?, ?)';
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+
+        connection.query(query, [nama, author, year, page_count, publisher], (err, result) => {
+            if (err) throw err;
+
+            const newBookId = result.insertId;
+
+            // Fetch the newly created book
+            const fetchQuery = 'SELECT * FROM books WHERE id = ?';
+            connection.query(fetchQuery, [newBookId], (err, newBook) => {
+                if (err) throw err;
+
+                responseSuccess(res, newBook, 'Book successfully created');
+            });
+
+            connection.release();
+        });
+    });
+};
+
+
+
 module.exports = {
     getBooks,
     getBook,
     updateBook,
+    deleteBook,
+    createBook,
 }
