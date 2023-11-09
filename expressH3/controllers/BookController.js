@@ -40,7 +40,7 @@ const getBook = (req, res) => {
                 return
             }
         })
-
+// test
         connection.release()
     })
 }
