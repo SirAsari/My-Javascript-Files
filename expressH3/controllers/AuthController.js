@@ -20,6 +20,7 @@ const register = (req, res) => {
     password: req.body.password,
   };
 
+  // test
   pool.getConnection((err, connection) => {
     if (err) throw err;
   });
