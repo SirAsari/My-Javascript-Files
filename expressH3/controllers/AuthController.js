@@ -11,6 +11,7 @@ pool.on("error", (err) => {
   console.error(err);
 });
 
+
 const accessTokenSecret = "12209150";
 
 const register = (req, res) => {
@@ -20,7 +21,6 @@ const register = (req, res) => {
     password: req.body.password,
   };
 
-  // test
   pool.getConnection((err, connection) => {
     if (err) throw err;
   });
@@ -76,7 +76,7 @@ const register = (req, res) => {
             res.status(500).json({
               message: "Failed creating user",
             });
-          }   
+          }
         });
       });
 
