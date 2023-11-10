@@ -11,7 +11,6 @@ pool.on("error", (err) => {
   console.error(err);
 });
 
-// test
 
 const accessTokenSecret = "12209150";
 
@@ -86,6 +85,47 @@ const register = (req, res) => {
   }
 };
 
+const login = (req, res) => {
+  const {email, password} = req.body
+
+  if (email == null || password == null) {
+      responseFailValidate(res, 'Email/Password is required')
+  } else {
+      const query = `SELECT * FROM users WHERE email = '${email}' AND password = '${password}'`
+
+      pool.getConnection((err, connection) => {
+          if (err) { throw err }
+
+          connection.query(query, (err, result) => {
+              if (err) { throw err }
+
+              if (result.length >= 1) {
+                  const user = result.pop()
+
+                  const token = jwt.sign({
+                      email: user.email,
+                      username: user.username
+                  }, accessTokenSecret)
+
+                  responseAuthSuccess(res, token, 'Login success', {
+                      email: user.email,
+                      username: user.username
+                  })
+
+                  return
+              }
+
+              res.status(404).json({
+                  message: 'Email or password is incorrect'
+              })
+          })
+
+          connection.release()
+      })
+  }
+}
+
 module.exports = {
   register,
+  login,
 };

@@ -1,11 +1,12 @@
 const express = require("express");
-// const cors = require('cors');
+const cors = require('cors');
 const mysql = require("mysql2");
 const bookRoute = require("./routes/book");
 const authorRoute = require("./routes/author");
 const authRoute = require("./routes/auth");
 const dbConfig = require("./config/database");
 const pool = mysql.createPool(dbConfig)
+const authenticateJWT = require('./middleware/auth') 
 
 pool.on('error', (err) => {
     console.log(err);
@@ -20,7 +21,7 @@ app.use(express.urlencoded({
 }))
          
 // Enable CORS for all routes
-// app.use(cors());
+app.use(cors());
 // app.use(
 //     cors({
 //       origin: 'http://example.com', // Allow requests from this specific origin
@@ -43,7 +44,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/auth', authRoute);
-app.use("/book", bookRoute);
+app.use("/book", authenticateJWT, bookRoute);
 app.use("/author", authorRoute);
 
 app.listen(PORT, () => {
