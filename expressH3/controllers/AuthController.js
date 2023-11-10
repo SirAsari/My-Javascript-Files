@@ -22,21 +22,6 @@ const register = (req, res) => {
 
   pool.getConnection((err, connection) => {
     if (err) throw err;
-    connection.query(
-      `SELECT * 
-        FROM users WHERE email='${data.email}' OR
-        username='${data.username}'`,
-      (err, results) => {
-        if (err) throw err;
-        if (results.length > 0) {
-          responseFailValidate.status(403).json({
-            message: "Email/Username sudah digunakan",
-          });
-
-          return;
-        }
-      }
-    );
   });
 
   if (data.email == null || data.username == null || data.password == null) {
@@ -47,31 +32,53 @@ const register = (req, res) => {
   } else {
     const query = "INSERT INTO users SET ?";
 
-    pool.getConnection((err, connection) => {
+    const query2 = `SELECT * 
+    FROM users WHERE email='${data.email}' OR
+    username='${data.username}'`;
+
+    pool.getConnection(async (err, connection) => {
       if (err) throw err;
 
-      connection.query(query, [data], (err, results) => {
-        if (err) throw err;
-        if (results.affectedRows >= 1) {
-          const token = jwt.sign(
-            {
-              email: data.email,
-              username: data.username,
-            },
-            accessTokenSecret
-          );
+      var checkUnique = new Promise((resolve) => {
+        connection.query(query2, (err, results) => {
+          if (err) throw err;
 
-          responseAuthSuccess(res, token, "Register succesfully", {
-            email: data.email,
-            username: data.username,
-          });
-
-          return;
-        }
-        res.status(500).json({
-          message: "Failed creating user",
+          if (results.length > 0) {
+            res.status(403).json({
+              message: "Email/Username sudah digunakan",
+            });
+          } else {
+            resolve();
+          }
         });
       });
+
+      await checkUnique.then(() => {
+        connection.query(query, [data], (err, results) => {
+          if (err) throw err;
+          if (results.affectedRows >= 1) {
+            const token = jwt.sign(
+              {
+                email: data.email,
+                username: data.username,
+              },
+              accessTokenSecret
+            );
+
+            responseAuthSuccess(res, token, "Register succesfully", {
+              email: data.email,
+              username: data.username,
+            });
+
+            return;
+          } else {
+            res.status(500).json({
+              message: "Failed creating user",
+            });
+          }   
+        });
+      });
+
       connection.release();
     });
   }
