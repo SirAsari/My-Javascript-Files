@@ -1,0 +1,14 @@
+.boxContainer {
+    display: flex;
+}
+
+.box {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #bbada0;
+    width: 130px;
+    height: 130px;
+}
+
+.colFour .box.boxFour {
+    background-color: rgb(201, 200, 173);
+}
