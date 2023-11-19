@@ -1,4 +1,5 @@
 document.addEventListener("keydown", function (event) {
+  
   if (event.key === "ArrowUp") {
     console.log("Arrow Up pressed");
   } else if (event.key === "ArrowDown") {
@@ -11,13 +12,10 @@ document.addEventListener("keydown", function (event) {
 });
 
 // Get all the boxes within the boxContainer
-const boxes = document.querySelectorAll('.boxContainer .box');
+const boxesWithContent = document.querySelectorAll('.boxContainer .box:not(:empty)');
 
-// Loop through each box
-boxes.forEach(box => {
-    // Check if the box has content
-    if (box.textContent.trim().length > 0) {
-        // Add a class to change the background color
-        box.classList.add('highlight');
-    }
+// Loop through each box with content
+boxesWithContent.forEach(box => {
+    // Add a class or apply styling to boxes with content
+    box.classList.add('highlight');
 });
