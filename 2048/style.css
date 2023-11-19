@@ -1,14 +1,20 @@
 .boxContainer {
     display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .box {
     background-color: rgb(255, 255, 255);
-    border: 1px solid #bbada0;
+    border: 8px solid #bbada0;
     width: 130px;
     height: 130px;
 }
 
-.colFour .box.boxFour {
+.colOne, .colTwo, .colThree, .colFour {
+    display: flex;
+}
+
+.highlight {
     background-color: rgb(201, 200, 173);
 }
