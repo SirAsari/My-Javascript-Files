@@ -1,6 +1,13 @@
 const fs = require('fs');
 
-fs.appendFile('storage.js', 'New data to append', 'utf8', (err) => {
+// Data to append
+const newData = `
+
+// Appending a data
+console.log('hello world');
+`;
+
+fs.appendFile('storage.js', newData, 'utf8', (err) => {
     if (err) {
         console.error('Error appending to file:', err);
         return;
