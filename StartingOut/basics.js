@@ -1,3 +1,6 @@
+//this is a array placeholder, used for fs. module error handling test
+const item = {"Name": "Foo", "Age": 16};
+
 // variables 
 // var, let, const
 
