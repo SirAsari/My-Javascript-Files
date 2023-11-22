@@ -22,3 +22,11 @@ let car1 = Object.create(car);
 car1.constructor('Toyota', 'black', 100, '123456789');  
 console.log(car1.brand);
 
+// Private field
+class Circle {
+    #radius;
+
+    constructor(value) {
+      this.#radius = value;
+    }
+}
