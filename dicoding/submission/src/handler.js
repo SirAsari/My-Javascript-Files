@@ -71,7 +71,7 @@ const addItemHandler = (request, h) => {
   return response;
 };
 const getAllItemsHandler = (request, h) => {
-  const { name, reading, finished } = request.query; // Terdapat query name
+  const { name, reading, finished } = request.query;
   if (name) {
     const filteredBooksName = items.filter((book) => {
       const nameRegex = new RegExp(name, "gi");
@@ -141,7 +141,29 @@ const getAllItemsHandler = (request, h) => {
     .code(200);
   return response;
 };
-const getItemByIdHandler = (request, h) => {};
+const getItemByIdHandler = (request, h) => {
+  const { bookId } = request.params;
+  const book = items.filter((note) => note.id === bookId)[0]; // Jika buku dengan id yang dicari ditemukan
+  if (book) {
+    const response = h
+      .response({
+        status: "success",
+        data: {
+          book,
+        },
+      })
+      .code(200);
+    return response;
+  } // Jika buku dengan id yang dicari tidak ditemukan
+  const response = h
+    .response({
+      status: "fail",
+      message: "Buku tidak ditemukan",
+    })
+    .code(404);
+  return response;
+};
+
 const editItemByIdHandler = (request, h) => {
   const { bookId } = request.params;
   const {
