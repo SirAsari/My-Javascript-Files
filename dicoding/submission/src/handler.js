@@ -142,8 +142,92 @@ const getAllItemsHandler = (request, h) => {
   return response;
 };
 const getItemByIdHandler = (request, h) => {};
-const editItemByIdHandler = (request, h) => {};
-const deleteItemByIdHandler = (request, h) => {};
+const editItemByIdHandler = (request, h) => {
+  const { bookId } = request.params;
+  const {
+    name,
+    year,
+    author,
+    summary,
+    publisher,
+    pageCount,
+    readPage,
+    reading,
+  } = request.payload; // Tidak terdapat properti name pada request body
+  if (!name) {
+    const response = h
+      .response({
+        status: "fail",
+        message: "Gagal memperbarui buku. Mohon isi nama buku",
+      })
+      .code(400);
+    return response;
+  } // Nilai properti readPage lebih besar dari pageCount pada request body
+  if (readPage > pageCount) {
+    const response = h
+      .response({
+        status: "fail",
+        message:
+          "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount",
+      })
+      .code(400);
+    return response;
+  }
+  const finished = pageCount === readPage;
+  const updatedAt = new Date().toISOString();
+  const index = items.findIndex((book) => book.id === bookId); // Jika book dengan id yang dicari ditemukan
+  if (index !== -1) {
+    items[index] = {
+      ...items[index],
+      name,
+      year,
+      author,
+      summary,
+      publisher,
+      pageCount,
+      readPage,
+      reading,
+      finished,
+      updatedAt,
+    };
+    const response = h
+      .response({
+        status: "success",
+        message: "Buku berhasil diperbarui",
+      })
+      .code(200);
+    return response;
+  } // Jika book dengan id yang dicari tidak ditemukan
+  const response = h
+    .response({
+      status: "fail",
+      message: "Gagal memperbarui buku. Id tidak ditemukan",
+    })
+    .code(404);
+  return response;
+};
+
+const deleteItemByIdHandler = (request, h) => {
+  const { bookId } = request.params;
+  const index = items.findIndex((book) => book.id === bookId); // Jika book dengan id yang dicari ditemukan
+  if (index !== -1) {
+    items.splice(index, 1);
+    const response = h
+      .response({
+        status: "success",
+        message: "Buku berhasil dihapus",
+      })
+      .code(200);
+    return response;
+  } // Jika book dengan id yang dicari tidak ditemukan
+  const response = h
+    .response({
+      status: "fail",
+      message: "Buku gagal dihapus. Id tidak ditemukan",
+    })
+    .code(404);
+  return response;
+};
 module.exports = {
   addItemHandler,
   getAllItemsHandler,
